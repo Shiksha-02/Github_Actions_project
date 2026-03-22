@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: welcome message
-              run: "my first github actions workflow"
+              run: echo "my first github actions workflow"
 
             - name: list files
               run: ls
