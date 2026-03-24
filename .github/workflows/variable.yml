@@ -1,0 +1,29 @@
+name: explore variable and secrets
+on: push
+env:
+  CONTAINER_REGISTRY: docker.io
+  DOCKER_USERNAME: siddharth
+  IMAGE_NAME: github-action-nginx
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: docker build
+        run: echo docker build -t ${{ env.CONTAINER_REGISTRY }}/${{ env.DOCKER_USERNAME}}/${{ env.IMAGE_NAME }}:latest
+      
+      - name: docker login
+        env:
+          DOCKER_PASSWORD: s3userpas123
+        run: echo docker login --username=${{ env.DOCKER_USERNAME }} --password=${{ env.DOCKER_PASSWORD }}
+
+      - name: docker publish
+        run: echo docker push ${{ env.CONTAINER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}
+
+  job_2:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: docker run
+        run: echo docker run -d -p 8080:80 ${{ env.CONTAINER_REGISTRY }}/${{ env.DOCKER_USERNAME }}/${{env.IMAGE_NAME}}:latest
+      
+   
